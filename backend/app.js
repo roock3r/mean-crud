@@ -42,14 +42,15 @@ app.post("/api/posts", (req, res, next) => {
 });
 
 app.use('/api/posts',(req, res, next) => {
-  const posts = [
-    {id: '1232232', title:'hello world', content: 'hello world content'}
-  ];
+  Post.find()
+    .then(documents => {
+      console.log(documents);
+      res.status(200).json({
+        message: "post fetched successfully",
+        posts: documents
+      });
+    });
 
-  res.status(200).json({
-    message: "post fetched successfully",
-    posts: posts
-  });
 });
 
 module.exports = app;
