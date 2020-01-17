@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Post = require('./models/post');
+const posts = require('./routes/api/posts');
 
 const app = express();
 
@@ -12,10 +12,11 @@ mongoose.connect("mongodb+srv://dev02:hWKtC4XqedgdJehO@cluster0-ctv3y.mongodb.ne
   })
   .catch(() => {
     console.log('Connection to the database failed !');
-  })
+  });
 
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
 
 app.use((req,res,next) => {
   res.setHeader('Access-Control-Allow-Origin', "*");
@@ -24,33 +25,9 @@ app.use((req,res,next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  console.log('First Middleware');
-  next();
-});
+//using routes
+app.use('/api/posts', posts);
 
-app.post("/api/posts", (req, res, next) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content
-  });
-  console.log(post);
-  post.save();
-  res.status(201).json({
-    message: 'Post added successfully'
-  });
-});
 
-app.use('/api/posts',(req, res, next) => {
-  Post.find()
-    .then(documents => {
-      console.log(documents);
-      res.status(200).json({
-        message: "post fetched successfully",
-        posts: documents
-      });
-    });
-
-});
 
 module.exports = app;
