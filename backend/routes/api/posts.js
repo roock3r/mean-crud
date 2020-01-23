@@ -8,7 +8,7 @@ const Post = require('../../models/post');
 const router = express.Router();
 
 const MIME_TYPE_MAP = {
-  'img/png': 'png',
+  'image/png': 'png',
   'image/jpeg': 'jpg',
   'image/jpg': 'jpg',
 };
@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
   }
 });
 
-router.post("/", multer(storage).single('image'), (req, res) => {
+router.post("/", multer({storage: storage}).single('image'), (req, res) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content
