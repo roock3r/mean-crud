@@ -7,7 +7,7 @@ const posts = require('./routes/api/posts');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://dev02:hWKtC4XqedgdJehO@cluster0-ctv3y.mongodb.net/messages?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://dev02:hWKtC4XqedgdJehO@cluster0-ctv3y.mongodb.net/messages?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true  })
   .then(() => {
     console.log('Connected to the database!');
   })
