@@ -3,6 +3,8 @@ const multer = require('multer');
 
 const Post = require('../../models/post');
 
+const checkAuth = require('../../middleware/check-auth');
+
 const router = express.Router();
 
 const MIME_TYPE_MAP = {
@@ -27,7 +29,7 @@ const storage = multer.diskStorage({
   }
 });
 
-router.post("/", multer({storage: storage}).single('image'), (req, res) => {
+router.post("/", checkAuth, multer({storage: storage}).single('image'), (req, res) => {
   const url = req.protocol + '://' + req.get("host");
   const post = new Post({
     title: req.body.title,
@@ -47,7 +49,7 @@ router.post("/", multer({storage: storage}).single('image'), (req, res) => {
   });
 });
 
-router.put("/:id",multer({storage: storage}).single('image') ,(req, res, next) => {
+router.put("/:id", checkAuth, multer({storage: storage}).single('image') ,(req, res, next) => {
   let imagePath = req.body.imagePath;
   if(req.file){
     const url = req.protocol + '://' + req.get("host");
@@ -65,7 +67,7 @@ router.put("/:id",multer({storage: storage}).single('image') ,(req, res, next) =
   })
 });
 
-router.get('/', (req, res, next) => {
+router.get('/', checkAuth, (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const postQuery = Post.find();
@@ -86,7 +88,7 @@ router.get('/', (req, res, next) => {
       });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', checkAuth, (req, res, next) => {
   Post.findById(req.params.id).then(post => {
     if (post) {
       res.status(200).json(post);
@@ -96,7 +98,7 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', checkAuth, (req, res, next) => {
   console.log(req.params.id);
   Post.deleteOne({ _id: req.params.id }).then(result => {
     res.status(200).json({ message: 'post deleted!' })
