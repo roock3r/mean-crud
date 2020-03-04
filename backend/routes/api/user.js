@@ -36,7 +36,7 @@ router.post("/login", (req, res, next) => {
   .then(user => {
     if(!user) {
       return res.status(401).json({
-        message: 'Auth Failed'
+        message: 'Auth Failed BAR 1'
       })
     }
     fetchUser = user;
@@ -44,7 +44,7 @@ router.post("/login", (req, res, next) => {
   }).then(result => {
     if(!result){
       return res.status(401).json({
-        message: 'Auth Failed'
+        message: 'Auth Failed BAR 2'
       })
     }
     const token = jwt.sign({ email: fetchUser.email, userId: fetchUser._id}, 'secret_this_should_be_longer', {
