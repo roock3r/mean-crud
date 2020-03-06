@@ -10,7 +10,7 @@ import { PageEvent } from "@angular/material";
   templateUrl: "./post-list.component.html",
   styleUrls: ["./post-list.component.css"]
 })
-export class PostListComponent implements OnInit, OnDestroy {
+export class  PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   isLoading = false;
   totalPost = 0;
