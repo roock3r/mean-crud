@@ -1,5 +1,5 @@
+import { AuthService } from './../auth/auth.service';
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../auth/auth.service';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -20,4 +20,12 @@ export class HeaderComponent implements OnInit {
         this.userIsAuthenticated = isAuthenticated;
       });
    }
+
+    onLogout() {
+      this.authService.logout();
+    }
+
+    ngOnDestroy() {
+      this.authListenerSubs.unsubscribe();
+    }
 }
